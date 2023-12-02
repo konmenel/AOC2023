@@ -6,7 +6,7 @@ For a given day "**XX**" do one of the following
 
 Run the powershell script
 ```powershell
-.\\setup.ps1 XX
+.\setup.ps1 XX
 ```
 or the bash script
 ```bash
