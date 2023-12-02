@@ -14,7 +14,7 @@ void usage(const std::string &program_name) {
 }
 
 
-input_t parse_inputs(const std::string &filename){
+input_t parse_inputs(const std::string &filename) {
     std::ifstream file(filename);
     if (!file) {
         std::cerr << "Unable to open file \"" << filename << "\"!" << std::endl;
@@ -33,15 +33,13 @@ input_t parse_inputs(const std::string &filename){
 }
 
 
-int part_1()
-{
+int part_1(const input_t &in) {
 
     return -1;
 }
 
 
-int main(int argc, char *argv[]) 
-{
+int main(int argc, char *argv[]) {
     if (argc < 2) {
         usage(argv[0]);
         return EXIT_FAILURE;
@@ -50,10 +48,10 @@ int main(int argc, char *argv[])
     input_t lines = parse_inputs(argv[1]);
 
 
-    // cout << "---PART 1---\n";
-    // cout << "*TEXT 1 HERE*" << var_name_1 << endl;
-    // cout << "---PART 2---\n";
-    // cout << "*TEXT 2 HERE*" << var_name_2 << endl;
+    // std::cout << "-----PART 1-----\n";
+    // std::cout << "*TEXT 1 HERE*" << var_name_1 << std::endl;
+    // std::cout << "-----PART 2-----\n";
+    // std::cout << "*TEXT 2 HERE*" << var_name_2 << std::endl;
 
     return 0;
 }
