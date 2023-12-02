@@ -25,7 +25,7 @@ and example inputs.
 
 Before running the script you need to setup the `cookie.json` file. This needs to be done because the inputs differ for each user. Simply copy the value for session cookie from https://adventofcode.com/ using the inspect tool in the browser, to the `cookie_example.json` file and rename to `cookie.json`.
 
-### Run
+### Download
 After the above are done, for a given day "**XX**" you should be able to excecute:
 
 ```bash
