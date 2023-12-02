@@ -32,7 +32,7 @@ After the above are done, for a given day "**XX**" you should be able to excecut
 $ python3 getinput.py XX
 ```
 
-## To build and run a solution
+## To build and run a solution (Linux only)
 For a given day "**XX**" do one of the following
 
 ### Debug
