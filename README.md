@@ -32,12 +32,20 @@ After the above are done, for a given day "**XX**" you should be able to excecut
 $ python3 getinput.py XX
 ```
 
-<!-- ## To run a solution
+## To build and run a solution
 For a given day "**XX**" do one of the following
 
-### Rust scripts
-To run with example input:
-
+### Debug
 ```bash
-$ make dayXX
-``` -->
+$ ./runday XX debug
+```
+
+### Release
+```bash
+$ ./runday XX release
+```
+
+or just
+```bash
+$ ./runday XX
+```
