@@ -97,7 +97,11 @@ int part2(const input_t& in) {
                 else if (color_name == "blue")  max_blue  = std::max(max_blue,   color_val);
             }
         }
-        std::cout << max_red << "," << max_green << "," << max_blue << std::endl;
+        powers.push_back(max_blue * max_green * max_red);
+#ifdef DEBUG
+        std::cout << "Game " << i+1 << ": " << max_red << "," << max_green << "," << max_blue << "; "
+            << max_red*max_blue*max_green << std::endl;
+#endif
     }
     return std::accumulate(powers.begin(), powers.end(), 0);
 }
