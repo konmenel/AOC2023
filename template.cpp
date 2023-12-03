@@ -33,7 +33,7 @@ input_t parse_inputs(const std::string &filename) {
 }
 
 
-int part_1(const input_t &in) {
+int part1(const input_t &in) {
 
     return -1;
 }
