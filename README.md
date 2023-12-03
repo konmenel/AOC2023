@@ -32,20 +32,37 @@ After the above are done, for a given day "**XX**" you should be able to excecut
 $ python3 getinput.py XX
 ```
 
-## To build and run a solution (Linux only)
+## To build and run a solution
 For a given day "**XX**" do one of the following
 
-### Debug
+### Linux
+#### Debug
 ```bash
-$ ./runday XX debug
+$ ./runday.sh XX debug
 ```
 
-### Release
+#### Release
 ```bash
-$ ./runday XX release
+$ ./runday.sh XX release
 ```
 
 or just
 ```bash
-$ ./runday XX
+$ ./runday.sh XX
+```
+
+### Windows
+#### Debug
+```powershell
+$ ./runday.ps1 XX debug
+```
+
+#### Release
+```powershell
+$ ./runday.ps1 XX release
+```
+
+or just
+```powershell
+$ ./runday.ps1 XX
 ```

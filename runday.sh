@@ -28,11 +28,11 @@ gcc_flacs=""
 datadir=data
 if [[ "debug" == $mode ]]; then
     debug=true
-    debug_flac="-DDEBUG -O0"
+    gcc_flacs="-DDEBUG -O0 -g"
     datadir=data/examples
 elif [[ "release" == $mode || "" == $mode ]]; then
     debug=false
-    debug_flac="-O3"
+    gcc_flacs="-O3"
     datadir=data
 else
     echo "Unknown mode \"$mode\""
@@ -41,5 +41,5 @@ else
 fi
 
 set -x
-g++ ./src/day$daynumber.cpp -o ./bin/day$daynumber $debug_flac
+g++ ./src/day$daynumber.cpp -o ./bin/day$daynumber $gcc_flacs
 ./bin/day$daynumber $datadir/$daynumber.txt
