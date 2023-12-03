@@ -56,10 +56,6 @@ def main() -> int:
     with open(filename, "w") as file:
         file.write(request.text)
 
-    if args.day == 20:
-        print("Day 20 example not supported do it manually!")
-        return 1
-
     example_fname = f"data/examples/{args.day:02d}.txt"
     if os.path.exists(example_fname):
         print(f'Example data file "{example_fname}" already exists')
@@ -69,7 +65,7 @@ def main() -> int:
     request = requests.get(url, cookies=COOKIE)
     soup = BeautifulSoup(request.text, "html.parser")
 
-    example_p = soup.find(string=re.compile("For example|[Ll]arger example"))
+    example_p = soup.find(string=re.compile("For example|[Ll]arger example|[Hh]ere is an example"))
     example_data = example_p.findNext("code").text
 
     with open(example_fname, "w") as file:

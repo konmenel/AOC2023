@@ -40,7 +40,7 @@ input_t parse_inputs(){
 
 int get_number_from_name(std::string &substr) {
     for (size_t i = 0; i < 9; ++i) {
-        if (substr.find(NUMBER_NAMES[i]) != std::string_view::npos) {
+        if (substr.find(NUMBER_NAMES[i]) != std::string::npos) {
             return i+1;
         }
     }
