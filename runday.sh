@@ -40,6 +40,10 @@ else
     exit 1
 fi
 
+if [ ! -d "bin" ]; then
+    mkdir bin
+fi
+
 set -x
 g++ ./src/day$daynumber.cpp -o ./bin/day$daynumber $gcc_flacs
 ./bin/day$daynumber $datadir/$daynumber.txt

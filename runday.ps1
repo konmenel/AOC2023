@@ -37,5 +37,10 @@ if ( "debug" -eq $mode ) {
     Exit 1
 }
 
+if (Test-Path -Path "bin") {
+    New-Item -Path "." -Name "bin" -ItemType "directory"
+}
+
+
 Invoke-Expression "g++ ./src/day$daynumber.cpp -o ./bin/day$daynumber $gcc_flacs"
 Invoke-Expression "./bin/day$daynumber $datadir/$daynumber.txt"
