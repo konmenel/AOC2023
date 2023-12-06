@@ -208,20 +208,17 @@ uint64_t part2(const input_t &in) {
         for (size_t j = 0; j < dst.size(); j++) {
             for (size_t k = 0; k < src_ranges.size(); k++) {
                 if (dst[j].is_contained_in(src_ranges[k])){
-                    cout << "CONTAINED\n";
                     //      [o o o]         < dst[j]
                     // [- - -o o o - - - -] < src_ranges[k]
                     dst[j].start = dst_ranges[k].start + (dst[j].start - src_ranges[k].start);
                     break;
                 }
                 else if (dst[j].is_overlap_at_upper(src_ranges[k])) {
-                    cout << "1.UPPER\n";
                     Range nr(dst[j].start, 0);
                     nr.set_end(src_ranges[k].start-1);
                     dst.push_back(nr);
                     // [- - - - - - - A A A] dst[j]
                     //               [A A A - - - -] src_range
-                    cout << "2.UPPER\n";
                     int64_t s_old = dst[j].start;
                     int64_t e_old = dst[j].end();
                     dst[j].start = dst_ranges[k].start;
@@ -229,13 +226,11 @@ uint64_t part2(const input_t &in) {
                     break;
                 }
                 else if (dst[j].is_overlap_at_lower(src_ranges[k])) {
-                    cout << "1.LOWER\n";
                     Range nr(src_ranges[k].end() + 1, 0);
                     nr.set_end(dst[j].end());
                     dst.push_back(nr);
                     //               [A A A - - - -] dst[j]
                     // [- - - - - - - A A A] src_range
-                    cout << "1.LOWER\n";
                     int64_t s_old = dst[j].start;
                     int64_t e_old = dst[j].end();
                     dst[j].start = dst_ranges[k].start + (src_ranges[k].end() - s_old);
