@@ -1,5 +1,5 @@
 #!/bin/env python3
-"""A python script to automatically download the puzzle inputs and 
+"""A python script to automatically download the puzzle inputs and
 example inputs for any day.
 
 The `COOKIE` variable correspondes to my account should be changed
@@ -11,12 +11,12 @@ import os
 import re
 import json
 import argparse
-import datetime
 import requests
 from bs4 import BeautifulSoup
 
 
-with open('cookie.json', 'r') as file:
+YEAR = 2023
+with open("cookie.json", "r") as file:
     COOKIE = json.load(file)
 
 
@@ -31,8 +31,6 @@ def main() -> int:
     parser = argparse.ArgumentParser()
     parser.add_argument("day", type=int, help="The day of the puzzle input to download")
 
-    year = datetime.date.today().year
-
     args = parser.parse_args()
     if args.day <= 0:
         print("Error: Day should be a positive number")
@@ -43,7 +41,7 @@ def main() -> int:
         print(f'Input file "{filename}" already exists.')
         return 1
 
-    url = f"https://adventofcode.com/{year}/day/{args.day}/input"
+    url = f"https://adventofcode.com/{YEAR}/day/{args.day}/input"
     request = requests.get(url, cookies=COOKIE)
     if not request.ok:
         if request.status_code == 404:
@@ -61,11 +59,13 @@ def main() -> int:
         print(f'Example data file "{example_fname}" already exists')
         return 0
 
-    url = f"https://adventofcode.com/{year}/day/{args.day}"
+    url = f"https://adventofcode.com/{YEAR}/day/{args.day}"
     request = requests.get(url, cookies=COOKIE)
     soup = BeautifulSoup(request.text, "html.parser")
 
-    example_p = soup.find(string=re.compile("For example|[Ll]arger example|[Hh]ere is an example"))
+    example_p = soup.find(
+        string=re.compile("For example|[Ll]arger example|[Hh]ere is an example")
+    )
     example_data = example_p.findNext("code").text
 
     with open(example_fname, "w") as file:
