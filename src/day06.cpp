@@ -64,11 +64,13 @@ int part1(const input_t &in) {
             sum++;
         }
 
-        // Backwards loop
-        t = static_cast<int>(std::round(best_time))-1;
-        while (dist(t, t_x.first) > t_x.second) {
-            t--;
-            sum++;
+        // The function is symmetric (quadratic) so the solution is however
+        // if the optimal time is int we need to subtract one because we count
+        // the peak twice
+        sum *= 2;
+        double tmp;
+        if (std::modf(best_time, &tmp) == 0) {
+            sum--;
         }
 
         prod *= sum;
@@ -108,13 +110,14 @@ int part2(const input_t &in) {
         sum++;
     }
 
-    // Backwards loop
-    t = static_cast<int>(std::round(best_time))-1;
-    while (dist(t, time_race) > record_dist) {
-        t--;
-        sum++;
+    // The function is symmetric (quadratic) so the solution is however
+    // if the optimal time is int we need to subtract one because we count
+    // the peak twice
+    sum *= 2;
+    double tmp;
+    if (std::modf(best_time, &tmp) == 0) {
+        sum--;
     }
-
     return sum;
 }
 
