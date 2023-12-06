@@ -52,7 +52,8 @@ int part1(const input_t &in) {
 
     int prod = 1;
     for (auto &t_x : time_dist){
-        double max_dist = t_x.first * t_x.first * 0.25;
+        // Some high school level math...
+        double _max_dist = t_x.first * t_x.first * 0.25; // Not needed but I did the math anyways
         double best_time = t_x.first * 0.5;
         
         int sum = 0;
@@ -84,7 +85,6 @@ int part1(const input_t &in) {
 int part2(const input_t &in) {
     double time_race;
     double record_dist;
-
     // Parse strings
     std::string time_str = in[0].substr(6); //< Remove "Time:"
     time_str.erase(std::remove_if(time_str.begin(), time_str.end(), ::isspace), time_str.end());
@@ -96,7 +96,8 @@ int part2(const input_t &in) {
     std::istringstream iss_dist(dist_str);
     iss_dist >> record_dist;
 
-    double max_dist = time_race * time_race * 0.25;
+    // Some high school level math...
+    double _max_dist = time_race * time_race * 0.25; // Not needed but I did the math anyways
     double best_time = time_race * 0.5;
     
     int sum = 0;
