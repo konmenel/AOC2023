@@ -24,15 +24,15 @@ fi
 daynumber=$(printf "%02d" $daynumber)
 
 debug=false
-gcc_flacs=""
+gcc_options="-std=c++20"
 datadir=data
 if [[ "debug" == $mode ]]; then
     debug=true
-    gcc_flacs="-DDEBUG -O0 -g"
+    gcc_options="$gcc_options -DDEBUG -O0 -g"
     datadir=data/examples
 elif [[ "release" == $mode || "" == $mode ]]; then
     debug=false
-    gcc_flacs="-O3"
+    gcc_options="$gcc_options -O3"
     datadir=data
 else
     echo "Unknown mode \"$mode\""
@@ -45,5 +45,5 @@ if [ ! -d "bin" ]; then
 fi
 
 set -x
-g++ ./src/day$daynumber.cpp -o ./bin/day$daynumber $gcc_flacs
+g++ ./src/day$daynumber.cpp -o ./bin/day$daynumber $gcc_options
 ./bin/day$daynumber $datadir/$daynumber.txt
