@@ -5,10 +5,12 @@
 #include <string>
 #include <numeric>
 #include <algorithm>
+#include <unordered_map>
 
 
 typedef std::vector<std::string> input_t;
 
+const char CARD_ORDER[] = {'A', 'K', 'Q', 'J', 'T', '9', '8', '7', '6', '5', '4', '3', '2'};
 
 void usage(const std::string &program_name) {
     std::cout << "Usage: " << program_name << " <input_file>\n";
@@ -31,6 +33,30 @@ input_t parse_inputs(const std::string &filename) {
     
     file.close();
     return lines;
+}
+
+enum class HandType {
+    HighCard = 1,
+    OnePair = 2,
+    TwoPair = 3,
+    ThreeOfAKind = 4,
+    FullHouse = 5,
+    FourOfAKind = 6,
+    FiveOfAKind = 7,
+};    
+
+
+
+HandType getHand(const std::string &hand) {
+    HandType ret = HandType::HighCard;
+
+    std::unordered_map<char, uint32_t> hand{};
+
+    for (char c : hand) {
+
+    }
+
+    return ret;
 }
 
 
