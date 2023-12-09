@@ -45,14 +45,15 @@ int main(int argc, char *argv[]) {
         usage(argv[0]);
         return EXIT_FAILURE;
     }
-
     input_t lines = parse_inputs(argv[1]);
 
-
+    auto res1 = part1(lines);
     // std::cout << "-----PART 1-----\n";
-    // std::cout << "*TEXT 1 HERE*" << var_name_1 << std::endl;
+    // std::cout << "*TEXT 1 HERE*" << res1 << std::endl;
+    
+    // auto res2 = part2(lines);
     // std::cout << "-----PART 2-----\n";
-    // std::cout << "*TEXT 2 HERE*" << var_name_2 << std::endl;
+    // std::cout << "*TEXT 2 HERE*" << res2 << std::endl;
 
     return 0;
 }
