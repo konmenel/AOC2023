@@ -1,6 +1,8 @@
 #include <iostream>
 #include <fstream>
 #include <sstream>
+#include <cstdint>
+#include <format>
 #include <vector>
 #include <string>
 #include <numeric>
@@ -34,7 +36,7 @@ input_t parse_inputs(const std::string &filename) {
 }
 
 
-int part1(const input_t &in) {
+uint64_t part1(const input_t &in) {
 
     return -1;
 }
