@@ -1,6 +1,7 @@
 #include <iostream>
 #include <fstream>
 #include <sstream>
+#include <cstdint>
 #include <vector>
 #include <string>
 #include <format>
@@ -154,7 +155,6 @@ void makeStep(const Node *&curr_node, char instr, std::unordered_map<std::string
 
 uint64_t lcm(const std::vector<uint64_t> &nums) {
     if (nums.size() == 2) {
-        std::cout << nums[0] << "," << nums[1] << std::endl;
         return nums[0]*nums[1] / std::gcd(nums[0], nums[1]);
     }
     return std::lcm(nums[0], lcm(std::vector(nums.begin()+1, nums.end())));
@@ -184,7 +184,6 @@ uint64_t part2(const input_t &in) {
             makeStep(curr_node, instructions[steps % len], nodes);
             ++steps;
         }
-        std::cout << steps << std::endl;
         node_steps.push_back(steps);
     }
 
