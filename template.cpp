@@ -11,6 +11,13 @@
 
 typedef std::vector<std::string> input_t;
 
+#ifdef DEBUG
+    #define debug_println(fmt, ...) std::cout << std::format((fmt), __VA_ARGS__) << std::endl;
+    #define debug_print(fmt, ...) std::cout << std::format((fmt), __VA_ARGS__)
+#else
+    #define debug_println(fmt, ...)
+    #define debug_print(fmt, ...)
+#endif
 
 void usage(const std::string &program_name) {
     std::cout << "Usage: " << program_name << " <input_file>\n";
