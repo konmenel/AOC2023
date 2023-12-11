@@ -6,6 +6,8 @@
 #include <vector>
 #include <string>
 #include <numeric>
+#include <complex>
+#include <unordered_map>
 #include <algorithm>
 
 
@@ -161,8 +163,46 @@ Universe<> expandUniverse(const input_t &in) {
 }
 
 
+uint32_t complex2uint(std::complex<uint16_t> c) {
+    return (c.real() << sizeof(uint16_t)*8) | c.imag();
+}
+
+
+std::complex<uint16_t> uint2complex(uint32_t n) {
+    return std::complex(n >> sizeof(uint16_t)*8, n & UINT16_MAX);
+}
+
+
+uint64_t combinepair(uint32_t a, uint32_t b) {
+    if (a > b) {
+        return (a << sizeof(uint32_t)*8) | b;
+    }
+
+    return (b << sizeof(uint32_t)*8) | a;
+}
+
+
+uint64_t combinepair(std::complex<uint16_t> paira, std::complex<uint16_t> pairb) {
+    return combinepair(complex2uint(paira), complex2uint(pairb));
+}
+
+
+void pairfromlong(uint64_t pair, std::complex<uint16_t> &a, std::complex<uint16_t> &b) {
+    uint32_t paira = pair >> sizeof(uint32_t)*8;
+    uint32_t pairb = pair && 0xffffffff;
+    a = complex2uint(paira);
+    b = complex2uint(pairb);
+}
+
+
 uint64_t part1(const input_t &in) {
     Universe uni = expandUniverse(in);
+
+    std::complex<uint16_t> ;
+    // A pair is combined into a long and used as key. Value is the distance to be calculated.
+    std::unordered_map<uint64_t, int64_t> pairs;
+    
+
 
     return nchoosek(9, 5);
 }
