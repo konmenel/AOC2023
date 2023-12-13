@@ -21,7 +21,6 @@ typedef std::vector<std::string> input_t;
 #endif
 
 
-#define indexPerm(perm, i) (((perm) & (1 << (i))) >> (i))
 
 
 void usage(const std::string &program_name) {
@@ -83,6 +82,9 @@ uint32_t countUknowns(const std::string &condition) {
 }
 
 
+inline bool indexPerm(uint64_t perm, size_t i) { return ((perm & (1 << i)) >> i); }
+
+
 void applyPerm(const std::string &condition, uint64_t perm, std::string &permuted_str) {
     #ifdef DEBUG
     if (condition.size() != permuted_str.size())
@@ -91,8 +93,7 @@ void applyPerm(const std::string &condition, uint64_t perm, std::string &permute
     uint64_t j = 0;
     for (size_t i = 0; i < condition.size(); i++) {
         if (condition[i] == '?') {
-            permuted_str[i] = indexPerm(perm, j)*11 + 35;
-            j++;
+            permuted_str[i] = indexPerm(perm, j++)*11 + 35;
         }
     }
 }
