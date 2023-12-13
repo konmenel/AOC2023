@@ -103,17 +103,20 @@ uint32_t countValidPerm(const std::string &condition, const std::vector<uint32_t
     const uint32_t unknowns = countUknowns(condition);
     std::string tmp = condition;
 
-    debug_println("unknown string {}:", condition);
+    debug_println("Unknown condition {}:", condition);
     for (uint64_t perm = 0; perm < (1 << unknowns); perm++) {
         applyPerm(condition, perm, tmp);
         std::vector<uint32_t> perm_counts = countContiguous(tmp);
-        if (perm_counts == counts) sum++;
+        if (perm_counts == counts) {
+            sum++;
+
+            debug_print("\t{}) perm={}, applied={} ", sum, perm, tmp);
+            #ifdef DEBUG
+            for (const uint32_t &c : perm_counts)
+                debug_print("{},", c);
+            debug_println("");
+        }
         
-        debug_print("\tperm={}, applied={} ", perm, tmp);
-        #ifdef DEBUG
-        for (const uint32_t &c : perm_counts)
-            debug_print("{},", c);
-        debug_println("");
         #endif
     }
     return sum;
