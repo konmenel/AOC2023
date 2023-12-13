@@ -4,6 +4,7 @@
 #include <vector>
 #include <string>
 #include <numeric>
+#include <cstdint>
 
 
 typedef std::vector<std::string> input_t;
