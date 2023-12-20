@@ -11,6 +11,15 @@
 
 
 typedef std::vector<std::string> input_t;
+typedef bool bit;
+typedef uint8_t  u8;
+typedef uint16_t u16;
+typedef uint32_t u32;
+typedef uint64_t u64;
+typedef  int8_t  i8;
+typedef  int16_t i16;
+typedef  int32_t i32;
+typedef  int64_t i64;
 
 #ifdef DEBUG
     #define debug_println(fmt, ...) std::cout << std::format((fmt), ##__VA_ARGS__) << std::endl
@@ -47,9 +56,9 @@ input_t parse_inputs(const std::string &filename) {
 }
 
 
-std::vector<uint32_t> countContiguous(const std::string &condition) {
-    std::vector<uint32_t> ret;
-    uint32_t sum = 0;
+std::vector<u32> countContiguous(const std::string &condition) {
+    std::vector<u32> ret;
+    u32 sum = 0;
     for (char c : condition) {
         if (c == '.') {
             if(sum) ret.push_back(sum);
@@ -61,11 +70,11 @@ std::vector<uint32_t> countContiguous(const std::string &condition) {
 } 
 
 
-void getRecordAndCounts(const std::string &line, std::string &condition, std::vector<uint32_t> &counts) {
+void getRecordAndCounts(const std::string &line, std::string &condition, std::vector<u32> &counts) {
     std::istringstream iss(line);
     iss >> condition;
     std::string tmp;
-    uint32_t num;
+    u32 num;
     while(std::getline(iss, tmp, ',')) {
         std::istringstream(tmp) >> num;
         counts.push_back(num);
@@ -73,8 +82,8 @@ void getRecordAndCounts(const std::string &line, std::string &condition, std::ve
 }
 
 
-uint32_t countUknowns(const std::string &condition) {
-    uint32_t sum = 0;
+u32 countUknowns(const std::string &condition) {
+    u32 sum = 0;
     for (char c : condition) {
         if (c == '?') sum++;
     }
@@ -82,15 +91,15 @@ uint32_t countUknowns(const std::string &condition) {
 }
 
 
-inline bool indexPerm(uint64_t perm, size_t i) { return ((perm & (1 << i)) >> i); }
+inline bit indexPerm(u64 perm, size_t i) { return ((perm & (1 << i)) >> i); }
 
 
-void applyPerm(const std::string &condition, uint64_t perm, std::string &permuted_str) {
+void applyPerm(const std::string &condition, u64 perm, std::string &permuted_str) {
     #ifdef DEBUG
     if (condition.size() != permuted_str.size())
         debug_println("Strings must have the same length.");
     #endif
-    uint64_t j = 0;
+    u64 j = 0;
     for (size_t i = 0; i < condition.size(); i++) {
         if (condition[i] == '?') {
             permuted_str[i] = indexPerm(perm, j++)*11 + 35;
@@ -99,38 +108,58 @@ void applyPerm(const std::string &condition, uint64_t perm, std::string &permute
 }
 
 
-uint32_t countValidPerm(const std::string &condition, const std::vector<uint32_t> &counts) {
-    uint32_t sum = 0;
-    const uint32_t unknowns = countUknowns(condition);
+u32 countValidPerm(const std::string &condition, const std::vector<u32> &counts) {
+    u32 sum = 0;
+    const u32 unknowns = countUknowns(condition);
     std::string tmp = condition;
 
     debug_println("Unknown condition {}:", condition);
-    for (uint64_t perm = 0; perm < (1 << unknowns); perm++) {
+    for (u64 perm = 0; perm < (1 << unknowns); perm++) {
         applyPerm(condition, perm, tmp);
-        std::vector<uint32_t> perm_counts = countContiguous(tmp);
+        std::vector<u32> perm_counts = countContiguous(tmp);
         if (perm_counts == counts) {
             sum++;
 
-            debug_print("\t{}) perm={}, applied={} ", sum, perm, tmp);
+            debug_print("\t{:3}) perm={}, applied={} ", sum, perm, tmp);
             #ifdef DEBUG
-            for (const uint32_t &c : perm_counts)
+            for (const u32 &c : perm_counts)
                 debug_print("{},", c);
             debug_println("");
+            #endif
         }
-        
-        #endif
     }
     return sum;
 }
 
 
-uint64_t part1(const input_t &in) {
-    uint64_t totalArrangements = 0;
+u64 part1(const input_t &in) {
+    u64 totalArrangements = 0;
     for (const auto &line : in) {
         std::string condition;
-        std::vector<uint32_t> counts;
+        std::vector<u32> counts;
         getRecordAndCounts(line, condition, counts);
         totalArrangements += countValidPerm(condition, counts);
+    }
+
+    return totalArrangements;
+}
+
+
+u64 part2(const input_t &in) {
+    u64 totalArrangements = 0;
+    for (const auto &line : in) {
+        std::string condition1;
+        std::vector<u32> counts;
+        getRecordAndCounts(line, condition1, counts);
+        std::string condition2 = "?" + condition1;
+        std::string condition3 = condition1 + "?";
+        std::string condition4 = "?" + condition1 + "?";
+        
+        const uint n1 = countValidPerm(condition1, counts);
+        const uint n2 = countValidPerm(condition2, counts);
+        const uint n3 = countValidPerm(condition3, counts);
+        const uint n4 = countValidPerm(condition4, counts);
+        totalArrangements += 0;
     }
 
     return totalArrangements;
@@ -150,7 +179,7 @@ int main(int argc, char *argv[]) {
     
     // auto res2 = part2(lines);
     // std::cout << "-----PART 2-----\n";
-    // std::cout << "*TEXT 2 HERE*" << res2 << std::endl;
+    // std::cout << "Total arrangements = " << res2 << std::endl;
 
     return 0;
 }
