@@ -243,11 +243,11 @@ bool isFinished(const Grid<> &grid, const Grid<Visits> &energized_grid, const Po
 }
 
 
-u64 part1(const input_t &in) {
+u64 part1(const input_t &in, const Pos &starting_pos=Pos(0,0), const Dir &starting_vel=EAST) {
     Grid<> grid = parseGrid(in);
     Grid<Visits> energized_grid(grid.rows, grid.cols, Visits());
-    std::deque<Pos> beams{Pos(0, 0)};
-    std::deque<Dir> beams_vel{EAST};
+    std::deque<Pos> beams{starting_pos};
+    std::deque<Dir> beams_vel{starting_vel};
 
     while (!beams.empty()) {
         Pos pos = beams.front();
@@ -302,6 +302,20 @@ u64 part1(const input_t &in) {
 }
 
 
+u64 part2(const input_t &in) {
+    u64 max = 0;
+    for (usize x = 0; x < in[0].size(); ++x) {
+        max = std::max(max, part1(in, Pos(x, 0), SOUTH));
+        max = std::max(max, part1(in, Pos(x, in.size()-1), NORTH));
+    }
+    for (usize y = 0; y < in.size(); ++y) {
+        max = std::max(max, part1(in, Pos(0, y), EAST));
+        max = std::max(max, part1(in, Pos(in[0].size()-1, y), WEST));
+    }
+    return max; 
+}
+
+
 int main(int argc, char *argv[]) {
     if (argc < 2) {
         usage(argv[0]);
@@ -313,9 +327,9 @@ int main(int argc, char *argv[]) {
     std::cout << "-----PART 1-----\n";
     std::cout << "Total energized tiles = " << res1 << std::endl;
     
-    // auto res2 = part2(lines);
-    // std::cout << "-----PART 2-----\n";
-    // std::cout << "*TEXT 2 HERE*" << res2 << std::endl;
+    auto res2 = part2(lines);
+    std::cout << "-----PART 2-----\n";
+    std::cout << "Total energized tiles = " << res2 << std::endl;
 
     return 0;
 }
