@@ -148,11 +148,11 @@ public:
         return ss.str();
     }
 
-    bool isOutOfBound(i32 x, i32 y) {
+    bool isOutOfBound(i32 x, i32 y) const {
         return x < 0 || y < 0 || x >= cols || y >= rows;
     }
 
-    bool isOutOfBound(const Pos &pos) {
+    bool isOutOfBound(const Pos &pos) const {
         return isOutOfBound(pos.real(), pos.imag());
     }
 
@@ -205,6 +205,8 @@ struct Visits {
 
 
 void updateBeam(const Pos &pos, Dir &vel, std::deque<Pos> &beams, std::deque<Dir> &beams_vel, const  Grid<> &grid) {
+    if (grid.isOutOfBound(pos)) return;
+
     switch (grid(pos)) {
     case Tile::SplitHor:
         if (vel != WEST && vel != EAST) {
@@ -234,6 +236,13 @@ void updateBeam(const Pos &pos, Dir &vel, std::deque<Pos> &beams, std::deque<Dir
 }
 
 
+bool isFinished(const Grid<> &grid, const Grid<Visits> &energized_grid, const Pos &pos, const Dir &vel) {
+    return grid.isOutOfBound(pos) ||
+        std::find(energized_grid(pos).dirs.begin(), energized_grid(pos).dirs.end(), vel) 
+        != energized_grid(pos).dirs.end();
+}
+
+
 u64 part1(const input_t &in) {
     Grid<> grid = parseGrid(in);
     Grid<Visits> energized_grid(grid.rows, grid.cols, Visits());
@@ -241,33 +250,42 @@ u64 part1(const input_t &in) {
     std::deque<Dir> beams_vel{EAST};
 
     while (!beams.empty()) {
-        Pos &pos = beams.front();
+        Pos pos = beams.front();
         beams.pop_front();
-        Dir &vel = beams_vel.front();
+        Dir vel = beams_vel.front();
         beams_vel.pop_front();
-        updateBeam(pos, vel, beams, beams_vel, grid);
-        while (true) {
+        updateBeam(pos, vel, beams, beams_vel, grid); 
+
+        while (!isFinished(grid, energized_grid, pos, vel)) {
             if (!grid.isOutOfBound(pos)) {
                 energized_grid(pos).times++;
                 energized_grid(pos).dirs.push_back(vel);
             }
-
-            // New position
             pos += vel;
-
-            // Check if beam finish or is in loop
-            if (grid.isOutOfBound(pos) || 
-                std::find(energized_grid(pos).dirs.begin(), 
-                          energized_grid(pos).dirs.end(), vel) != energized_grid(pos).dirs.end()) {
-                break;
-            }
-
             updateBeam(pos, vel, beams, beams_vel, grid);
         }
 
         for (usize y = 0; y < energized_grid.rows; ++y) {
             for (usize x = 0; x < energized_grid.cols; ++x) {
-                debug_print("{}", energized_grid(x, y).times == 0 ? '.' : '#');
+                char c;
+                if (grid(x, y) != Tile::Empty) {
+                    c = tileToChar(grid(x, y));
+                } else if (energized_grid(x, y).times == 0) {
+                    c = '.';
+                } else if (energized_grid(x, y).times == 1) {
+                    if (energized_grid(x, y).dirs[0] == WEST) {
+                        c = '<';
+                    } else if (energized_grid(x, y).dirs[0] == EAST) {
+                        c = '>';
+                    } else if (energized_grid(x, y).dirs[0] == NORTH) {
+                        c = '^';
+                    } else {
+                        c = 'v';
+                    }
+                } else {
+                    c = 0x30 + energized_grid(x, y).times;
+                }
+                debug_print("{}", c);
             }
             debug_println("");
         }
