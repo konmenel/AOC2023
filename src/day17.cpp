@@ -159,7 +159,7 @@ public:
     }
 
     bool isOutOfBound(i32 x, i32 y) const {
-        return x < 0 || y < 0 || x >= cols || y >= rows;
+        return x < 0 || y < 0 || x >= (i32)cols || y >= (i32)rows;
     }
 
     bool isOutOfBound(const Pos &pos) const {
