@@ -13,6 +13,7 @@ if [[ $# -lt 1 ]]; then
     exit 1
 fi
 
+basedir="$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd)"
 daynumber=$1
 mode=$2
 
@@ -24,7 +25,8 @@ fi
 daynumber=$(printf "%02d" $daynumber)
 
 debug=false
-gcc_options="-std=c++20"
+includes="-I$basedir/include"
+gcc_options="-std=c++20 $includes"
 datadir=data
 if [[ "debug" == $mode ]]; then
     debug=true
@@ -32,7 +34,7 @@ if [[ "debug" == $mode ]]; then
     datadir=data/examples
 elif [[ "release" == $mode || "" == $mode ]]; then
     debug=false
-    gcc_options="$gcc_options -O3"
+    gcc_options="$gcc_options -Ofast -ffast-math"
     datadir=data
 else
     echo "Unknown mode \"$mode\""
