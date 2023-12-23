@@ -211,7 +211,7 @@ struct State {
 u32 shortestPath(Pos start, const Pos &end, const Grid<> &grid, const u32 min_steps=0, const u32 max_steps=3) {
     std::priority_queue<State, std::vector<State>, std::greater<State>> pq;
     pq.emplace(0, start, Dir(0, 0), 0);
-    robin_hood::unordered_flat_set<State, State> seen;
+    robin_hood::unordered_set<State, State> seen;
     seen.reserve(10 * 1024);
     State state;
 
@@ -238,7 +238,6 @@ u32 shortestPath(Pos start, const Pos &end, const Grid<> &grid, const u32 min_st
                 }
             }
         }
-        // std::cout << pq.size() << ", " << seen.size() << std::endl;
     }
     return UINT32_MAX;
 }
