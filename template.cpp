@@ -54,7 +54,7 @@ input_t parseInputs(const std::string &filename) {
 }
 
 
-u64 part1(const input_t &in) {
+i64 part1(const input_t &in) {
 
     return -1;
 }
