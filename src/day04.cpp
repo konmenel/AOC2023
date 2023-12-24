@@ -3,6 +3,7 @@
 #include <sstream>
 #include <vector>
 #include <string>
+#include <cstdint>
 #include <numeric>
 
 using namespace std;
