@@ -35,7 +35,7 @@ void usage(const std::string &program_name) {
 }
 
 
-input_t parse_inputs(const std::string &filename) {
+input_t parseInputs(const std::string &filename) {
     std::ifstream file(filename);
     if (!file) {
         std::cerr << "Unable to open file \"" << filename << "\"!" << std::endl;
@@ -65,7 +65,7 @@ int main(int argc, char *argv[]) {
         usage(argv[0]);
         return EXIT_FAILURE;
     }
-    input_t lines = parse_inputs(argv[1]);
+    input_t lines = parseInputs(argv[1]);
 
     auto res1 = part1(lines);
     // std::cout << "-----PART 1-----\n";
