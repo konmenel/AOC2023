@@ -301,7 +301,7 @@ i64 part1(const input_t &in) {
     i64 nhigh = 0;
 
     #ifdef DEBUG
-        #define N 3
+        #define N 4
     #else
         #define N 1000
     #endif
