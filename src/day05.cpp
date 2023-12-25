@@ -220,7 +220,6 @@ uint64_t part2(const input_t &in) {
                     dst.push_back(nr);
                     // [- - - - - - - A A A] dst[j]
                     //               [A A A - - - -] src_range
-                    int64_t s_old = dst[j].start;
                     int64_t e_old = dst[j].end();
                     dst[j].start = dst_ranges[k].start;
                     dst[j].set_end(dst_ranges[k].start + (e_old - src_ranges[k].start));
@@ -233,7 +232,6 @@ uint64_t part2(const input_t &in) {
                     //               [A A A - - - -] dst[j]
                     // [- - - - - - - A A A] src_range
                     int64_t s_old = dst[j].start;
-                    int64_t e_old = dst[j].end();
                     dst[j].start = dst_ranges[k].start + (src_ranges[k].end() - s_old);
                     dst[j].set_end(dst_ranges[k].end());
                     break;
