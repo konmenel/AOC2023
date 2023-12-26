@@ -160,6 +160,9 @@ robin_hood::unordered_flat_map<Record, u64> cache;
 
 
 u64 countValidPermCached(const std::string &cond, const std::vector<u32> &counts, Record rec) {
+    if (rec == Record()) 
+        cache.clear();
+
     if (cache.contains(rec))
         return cache[rec];
 
@@ -198,9 +201,6 @@ u64 part1(const input_t &in) {
         getRecordAndCounts(line, condition, counts);
         // totalArrangements += countValidPermCached(condition, counts, Record(0, 0, 0));
         totalArrangements += countValidPerm(condition, counts);
-        
-        cache.clear();
-        assert(countValidPerm(condition, counts) == countValidPermCached(condition, counts, Record()));
     }
 
     return totalArrangements;
@@ -210,7 +210,6 @@ u64 part1(const input_t &in) {
 u64 part2(const input_t &in) {
     u64 totalArrangements = 0;
     for (const auto &line : in) {
-        cache.clear();
         std::string condition;
         std::vector<u32> counts;
         getRecordAndCounts(line, condition, counts);
