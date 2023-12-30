@@ -7,8 +7,7 @@
 #include <string>
 #include <numeric>
 #include <algorithm>
-#include <unordered_map>
-#include <unordered_set>
+#include <deque>
 
 #include "robin_hood.h"
 
@@ -211,7 +210,11 @@ void simulateFalling(std::vector<Brick> &bricks) {
 
 
 i64 countRemoveable(const std::vector<Brick> &bricks) {
+<<<<<<< HEAD
     using Map = std::unordered_map<usize, std::unordered_set<usize>>;
+=======
+    using Map = robin_hood::unordered_map<usize, robin_hood::unordered_set<usize>>;
+>>>>>>> b6f735d (Day 22 Part 1)
     Map supports;
     Map supported;
     for (usize i = 0; i < bricks.size(); ++i) {
@@ -270,7 +273,11 @@ i64 part1(const input_t &in) {
 
 
 i64 countChainReactions(const std::vector<Brick> &bricks) {
+<<<<<<< HEAD
     using Map = std::unordered_map<usize, std::unordered_set<usize>>;
+=======
+    using Map = robin_hood::unordered_map<usize, robin_hood::unordered_set<usize>>;
+>>>>>>> b6f735d (Day 22 Part 1)
     Map supports;
     Map supported;
     for (usize i = 0; i < bricks.size(); ++i) {
@@ -295,11 +302,19 @@ i64 countChainReactions(const std::vector<Brick> &bricks) {
         }
     }
     
+<<<<<<< HEAD
+=======
+    std::deque<usize> queue;
+>>>>>>> b6f735d (Day 22 Part 1)
     i32 count = 0;
     for (usize i = 0; i < bricks.size(); ++i) {
         for  (usize j = 0; j < supports[i].size(); ++j) {
             if (supported[j].size() == 1) {
+<<<<<<< HEAD
                 while()
+=======
+                
+>>>>>>> b6f735d (Day 22 Part 1)
             }
         }
     }
