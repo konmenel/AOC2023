@@ -294,19 +294,12 @@ i64 countChainReactions(const std::vector<Brick> &bricks) {
         }
     }
     
-<<<<<<< HEAD
-=======
     std::deque<usize> queue;
->>>>>>> b6f735d (Day 22 Part 1)
     i32 count = 0;
     for (usize i = 0; i < bricks.size(); ++i) {
         for  (usize j = 0; j < supports[i].size(); ++j) {
             if (supported[j].size() == 1) {
-<<<<<<< HEAD
-                while()
-=======
                 
->>>>>>> b6f735d (Day 22 Part 1)
             }
         }
     }
