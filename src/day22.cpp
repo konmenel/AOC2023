@@ -299,7 +299,7 @@ i64 countChainReactions(const std::vector<Brick> &bricks) {
     for (usize i = 0; i < bricks.size(); ++i) {
         for  (usize j = 0; j < supports[i].size(); ++j) {
             if (supported[j].size() == 1) {
-                
+                while()
             }
         }
     }
