@@ -32,6 +32,8 @@ typedef int32_t  i32;
 typedef int64_t  i64;
 typedef size_t   usize;
 
+using Set = robin_hood::unordered_flat_set<usize>;
+using Map = robin_hood::unordered_flat_map<usize, Set>;
 
 void usage(const std::string &program_name) {
     std::cout << "Usage: " << program_name << " <input_file>\n";
@@ -268,8 +270,29 @@ i64 part1(const input_t &in) {
 }
 
 
+// Set difference
+Set operator-(Set lhs, Set rhs) {
+    Set ret;
+    ret.reserve(lhs.size() + rhs.size());
+    for (int e : lhs) {
+        if (!rhs.contains(e))
+            ret.insert(e);
+    }
+    return ret;
+}
+
+
+// Is lhs a subset of rhs
+bool operator<=(Set lhs, Set rhs) {
+    for (const auto &e : lhs) {
+        if (!rhs.contains(e))
+            return false;
+    }
+    return true;
+}
+
+
 i64 countChainReactions(const std::vector<Brick> &bricks) {
-    using Map = robin_hood::unordered_map<usize, robin_hood::unordered_set<usize>>;
     Map supports;
     Map supported;
     for (usize i = 0; i < bricks.size(); ++i) {
@@ -286,22 +309,33 @@ i64 countChainReactions(const std::vector<Brick> &bricks) {
         
         for (usize j = 0; j < i; ++j) {
             const Brick &other = bricks[j];
-
             if (brick_cp.isOverlap(other)) {
                 supported[i].insert(j);
                 supports[j].insert(i);
             }
         }
     }
-    
     std::deque<usize> queue;
-    i32 count = 0;
+    i64 count = 0;
     for (usize i = 0; i < bricks.size(); ++i) {
-        for  (usize j = 0; j < supports[i].size(); ++j) {
+        for  (usize j : supports[i]) {
             if (supported[j].size() == 1) {
-                
+                queue.push_back(j);
             }
         }
+        Set fell(queue.begin(), queue.end());
+        fell.insert(i);
+        while (!queue.empty()) {
+            usize j = queue.front();
+            queue.pop_front();
+            for (usize k : (supports[j] - fell)) {
+                if (supported[k] <= fell) {
+                    queue.push_back(k);
+                    fell.insert(k);
+                }
+            }
+        }
+        count += fell.size() - 1;
     }
     return count;
 }
