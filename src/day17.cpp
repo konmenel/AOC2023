@@ -68,19 +68,6 @@ Direction dirToInt(const Dir &dir) {
 }
 
 
-enum class TimerTypes{
-    hasher = 0,
-
-};
-
-
-class Timer {
-    public:
-
-
-};
-
-
 void usage(const std::string &program_name) {
     std::cout << "Usage: " << program_name << " <input_file>\n";
 }
@@ -130,7 +117,7 @@ public:
         return m_data[y*cols + x];
     }
 
-    inline T& operator()(std::complex<usize> pos) {
+    inline T& operator()(Pos pos) {
         return (*this)(pos.real(), pos.imag());
     }
 
@@ -143,7 +130,7 @@ public:
         return m_data[y*cols + x];
     }
 
-    inline const T& operator()(std::complex<usize> pos) const {
+    inline const T& operator()(Pos pos) const {
         return (*this)(pos.real(), pos.imag());
     }
 
