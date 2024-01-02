@@ -10,6 +10,8 @@
 #include <complex>
 #include <array>
 #include <deque>
+#include <assert.h>
+#include <unordered_set>
 
 #include "robin_hood.h"
 
@@ -251,14 +253,15 @@ Grid<Tile> parseGrid(const input_t &in) {
 }
 
 
-void walkGrid(Grid<> &grid, const i32 max_steps, Pos pos) {
+i64 walkGrid(Grid<> &grid, const i32 max_steps, Pos pos) {
+    if (max_steps % 2 == 0)
+        grid(pos) = Tile::Reachable;
     std::deque<Pos> queue{pos};
     for (i32 step = 0; step < max_steps; step++) {
         usize old_size = queue.size();
         for (usize i = 0; i < old_size; i++) {
             Pos p = queue.front();
             queue.pop_front();
-            grid(p) = Tile::Unreachable;
 
             for (const auto &n : ALL_DIRS) {
                 Pos np = p + n;
@@ -266,12 +269,16 @@ void walkGrid(Grid<> &grid, const i32 max_steps, Pos pos) {
                     continue;
                 }
                 queue.push_back(np);
-                grid(np) = Tile::Reachable;
+                if (step % 2 != max_steps % 2)
+                    grid(np) = Tile::Reachable;
             }
         }
     }
+    return grid.count(Tile::Reachable);
 }
 
+
+i64 walkGrid2(const Grid<> &grid, const i32 max_steps, Pos pos);
 
 i64 part1(const input_t &in) {
     #ifdef DEBUG
@@ -297,106 +304,100 @@ i64 part1(const input_t &in) {
 }
 
 
-// struct State{
-//     Pos p;
-//     bool isDiv2;
-
-//     bool operator==(const State &rhs) const {
-//         return p == rhs.p && isDiv2 == rhs.isDiv2;
-//     }
-// };
+template<>
+struct std::hash<Pos> {
+    std::size_t operator()(const Pos &pos) const noexcept {
+        return ((size_t)pos.real() << 32) + (size_t)pos.imag();
+    }
+};
 
 
-// template<>
-// struct std::hash<State> {
-//     inline usize operator()(const State &s) const noexcept {
-//         return ((usize)s.p.real() << 48) + ((usize)s.p.imag() << 16) + (usize)s.isDiv2;
-//     }
-// };
+struct State {
+    Pos pos;
+    i32 step;
+};
 
 
-// robin_hood::unordered_map<State, i64> cache{};
+
+i64 walkGridOpt(const Grid<> &grid, const i32 max_steps, Pos pos) {
+    i64 total = 0;
+    std::deque<State> queue{State{pos, 0}};
+    robin_hood::unordered_flat_set<Pos> seen{pos};
+    while (!queue.empty()) {
+        State s = queue.front();
+        queue.pop_front();
+        Pos p = s.pos;
+        i32 step = s.step;
+
+        if (step > max_steps)
+            return total;
+
+        if (step % 2 == max_steps % 2)
+            total++;
+
+        for (const auto &n : ALL_DIRS) {
+            Pos np = p + n;
+            if (grid.isOutOfBound(np) || grid(np) == Tile::Rock || seen.contains(np)) {
+                continue;
+            }
+            seen.insert(np);
+            queue.push_back(State{np, step+1});
+        }
+    }
+    return total;
+}
 
 
-// i64 walkGridCached(Grid<> &grid, const i64 max_steps, Pos pos, const Grid<> &repeating_grid, i64 step=0) {
-//     if (cache.contains(State{pos, max_steps % 2 == step % 2})
-//      && cache[State{pos, max_steps % 2 == step % 2}] + step < max_steps) {
-//         return cache[State{pos, max_steps % 2 == step % 2}];
-//     }
+i64 part2(const input_t &in) {
+    #ifdef DEBUG
+    const i64 N = 500;
+    #else
+    const i64 N = 26501365;
+    #endif
+    Grid<> grid = parseGrid(in);
+    Pos start(0);
+    for (usize y = 0, run = 1; run && y < grid.rows; ++y) {
+        for (usize x = 0; x < grid.cols; ++x) {
+            if (grid(x, y) == Tile::Reachable) {
+                start = Pos(x, y);
+                run = 0;
+                break;
+            }
+        }
+    }
+    assert(grid.rows == grid.cols && "Grid rows are not equal to grid cols.");
+    const i64 size = grid.rows;
+    const i64 grid_half_width = N / size - 1;
+    const i64 nodd = (grid_half_width / 2 * 2 + 1) * (grid_half_width / 2 * 2 + 1);
+    const i64 neven = ((grid_half_width + 1) / 2 * 2) * ((grid_half_width + 1) / 2 * 2);
+    
+    Grid<> empty_grid = grid;
+    empty_grid(start) = Tile::Unreachable;
 
-//     i64 ret = 0;
-//     Pos start = pos;
-//     Grid<> gridold = grid;
-//     Grid<> gridoldold = grid;
+    const i64 odd_fill = walkGridOpt(empty_grid, size*2 + 1, start);
+    const i64 even_fill = walkGridOpt(empty_grid, size*2, start);
 
-//     std::deque<Pos> queue{pos};
-//     for (; step < max_steps; step++) {
-//         usize old_size = queue.size();
-//         for (usize i = 0; i < old_size; i++) {
-//             Pos p = queue.front();
-//             queue.pop_front();
-//             grid(p) = Tile::Unreachable;
+    const i64 corner_t = walkGridOpt(empty_grid, size - 1, Pos(start.real(), size - 1));
+    const i64 corner_b = walkGridOpt(empty_grid, size - 1, Pos(start.real(), 0));
+    const i64 corner_r = walkGridOpt(empty_grid, size - 1, Pos(size - 1, start.imag()));
+    const i64 corner_l = walkGridOpt(empty_grid, size - 1, Pos(0, start.imag()));
+    
+    const i64 smalledge_tl = walkGridOpt(empty_grid, size/2 - 1, Pos(0, size-1));
+    const i64 smalledge_tr = walkGridOpt(empty_grid, size/2 - 1, Pos(size-1, size-1));
+    const i64 smalledge_br = walkGridOpt(empty_grid, size/2 - 1, Pos(0, 0));
+    const i64 smalledge_bl = walkGridOpt(empty_grid, size/2 - 1, Pos(size-1, 0));
 
-//             for (const auto &n : ALL_DIRS) {
-//                 Pos np = p + n;
-//                 if (grid.isOutOfBound(np)) {
-//                     Grid<> grid2 = repeating_grid;
-//                     i32 x = np.real();
-//                     i32 y = np.imag();
-//                     if      (x < 0)               x = grid.cols - 1;
-//                     else if (x >= (i32)grid.cols) x = 0;
-//                     if      (y < 0)               y = grid.rows - 1;
-//                     else if (y >= (i32)grid.rows) y = 0;
-//                     np = Pos(x, y);
-//                     grid2(np) = Tile::Reachable;
-//                     ret += walkGridCached(grid2, max_steps, np, repeating_grid, step);
-//                     continue;
-//                 } else if (grid(np) != Tile::Unreachable) {
-//                     continue;
-//                 }
+    const i64 bigedge_tl = walkGridOpt(empty_grid, size*3/2 - 1, Pos(0, size-1));
+    const i64 bigedge_tr = walkGridOpt(empty_grid, size*3/2 - 1, Pos(size-1, size-1));
+    const i64 bigedge_br = walkGridOpt(empty_grid, size*3/2 - 1, Pos(0, 0));
+    const i64 bigedge_bl = walkGridOpt(empty_grid, size*3/2 - 1, Pos(size-1, 0));
 
-//                 queue.push_back(np);
-//                 grid(np) = Tile::Reachable;
-//             }
-//         }
-//         if (grid == gridoldold && (max_steps % 2 == step % 2) && step > 2) {
-//             std::cout << step << std::endl;
-//             break;
-//         }
-//         gridoldold = gridold;
-//         gridold = grid;
-//     }
-//     i64 count = grid.count(Tile::Reachable);
-//     cache[State{start, (max_steps % 2 == step % 2)}] = count;
-//     ret += count;
-//     return ret;
-// }
-
-
-// i64 part2(const input_t &in) {
-//     #ifdef DEBUG
-//     const i64 N = 500;
-//     #else
-//     const i64 N = 26501365;
-//     #endif
-//     Grid<> grid = parseGrid(in);
-//     Pos start(0);
-//     for (usize y = 0, run = 1; run && y < grid.rows; ++y) {
-//         for (usize x = 0; x < grid.cols; ++x) {
-//             if (grid(x, y) == Tile::Reachable) {
-//                 start = Pos(x, y);
-//                 run = 0;
-//                 break;
-//             }
-//         }
-//     }
-//     Grid<> repeating_grid = grid;
-//     repeating_grid(start) = Tile::Unreachable;
-//     walkGridCached(grid, N, start, repeating_grid);
-//     debug_println("After {} steps:\n{}", N, grid.toString());
-
-//     return grid.count(Tile::Reachable);
-// }
+    return neven * even_fill 
+        + nodd * odd_fill
+        + corner_t + corner_b + corner_r + corner_l 
+        + (grid_half_width + 1) * (smalledge_bl + smalledge_br + smalledge_tl + smalledge_tr)
+        + grid_half_width * (bigedge_bl + bigedge_br + bigedge_tl + bigedge_tr);
+}
 
 
 int main(int argc, char *argv[]) {
@@ -410,9 +411,9 @@ int main(int argc, char *argv[]) {
     std::cout << "-----PART 1-----\n";
     std::cout << "Number of reachable plots = " << res1 << std::endl;
     
-    // auto res2 = part2(lines);
-    // std::cout << "-----PART 2-----\n";
-    // std::cout << "Number of reachable plots = " << res2 << std::endl;
+    auto res2 = part2(lines);
+    std::cout << "-----PART 2-----\n";
+    std::cout << "Number of reachable plots = " << res2 << std::endl;
 
     return 0;
 }
