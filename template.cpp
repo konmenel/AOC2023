@@ -8,6 +8,8 @@
 #include <numeric>
 #include <algorithm>
 
+#include "recycles.h"
+
 
 #ifdef DEBUG
     #define debug_println(fmt, ...) std::cout << std::format((fmt), ##__VA_ARGS__) << std::endl
@@ -19,16 +21,8 @@
 
 
 typedef std::vector<std::string> input_t;
-typedef uint8_t  u8;
-typedef uint16_t u16;
-typedef uint32_t u32;
-typedef uint64_t u64;
-typedef int8_t   i8;
-typedef int16_t  i16;
-typedef int32_t  i32;
-typedef int64_t  i64;
-typedef size_t   usize;
 
+using namespace utils;
 
 void usage(const std::string &program_name) {
     std::cout << "Usage: " << program_name << " <input_file>\n";
@@ -69,11 +63,11 @@ int main(int argc, char *argv[]) {
 
     auto res1 = part1(lines);
     // std::cout << "-----PART 1-----\n";
-    // std::cout << "*TEXT 1 HERE*" << res1 << std::endl;
+    // std::cout << "*TEXT HERE*" << res1 << std::endl;
     
     // auto res2 = part2(lines);
     // std::cout << "-----PART 2-----\n";
-    // std::cout << "*TEXT 2 HERE*" << res2 << std::endl;
+    // std::cout << "*TEXT HERE*" << res2 << std::endl;
 
     return 0;
 }

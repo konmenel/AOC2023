@@ -26,7 +26,7 @@ daynumber=$(printf "%02d" $daynumber)
 
 debug=false
 includes="-I$basedir/include"
-gcc_options="-Wall -Wpedantic -std=c++20 $includes"
+gcc_options="-Wall -Wpedantic -std=c++23 $includes"
 datadir=data
 if [[ "debug" == $mode ]]; then
     debug=true
