@@ -98,7 +98,7 @@ int part2(const input_t& in) {
             }
         }
         powers.push_back(max_blue * max_green * max_red);
-#ifdef DEBUG
+#ifdef _DEBUG
         std::cout << "Game " << i+1 << ": " << max_red << "," << max_green << "," << max_blue << "; "
             << max_red*max_blue*max_green << std::endl;
 #endif

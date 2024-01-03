@@ -29,7 +29,7 @@ const Pos WEST  = Pos(-1,  0);
 
 
 
-#ifdef DEBUG
+#ifdef _DEBUG
     #define debug_println(fmt, ...) std::cout << std::format((fmt), ##__VA_ARGS__) << std::endl
     #define debug_print(fmt, ...) std::cout << std::format((fmt), ##__VA_ARGS__)
 #else
@@ -189,13 +189,13 @@ u64 part2(const input_t &in) {
         debug_println("{}", line);
     }
     
-    #ifdef DEBUG
+    #ifdef _DEBUG
     i32 i = 0;
     #endif
     while (true) {
         performCycle(tmp);
         
-        #ifdef DEBUG
+        #ifdef _DEBUG
         debug_println("");
         debug_println("Cycle {}:", ++i);
         for (const auto &line : tmp) {

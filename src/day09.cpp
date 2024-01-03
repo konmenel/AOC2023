@@ -77,7 +77,7 @@ int64_t part1(const input_t &in) {
 
         sum += *seqs[0].rbegin();
 
-        #ifdef DEBUG
+        #ifdef _DEBUG
         for (const auto &s : seqs) {
             for (auto n : s) {
                 std::cout << n << ", ";
@@ -121,7 +121,7 @@ int64_t part2(const input_t &in) {
 
         sum += *seqs[0].begin();
 
-        #ifdef DEBUG
+        #ifdef _DEBUG
         for (const auto &s : seqs) {
             for (auto n : s) {
                 std::cout << n << ", ";

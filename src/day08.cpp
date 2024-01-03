@@ -92,7 +92,7 @@ int part1(const input_t &in) {
     size_t len = instructions.size();
 
     std::unordered_map<std::string, Node> nodes = createNodeMap(std::vector(in.begin()+2, in.end()));
-    #ifdef DEBUG
+    #ifdef _DEBUG
     for (auto &kv : nodes) {
         std::cout << std::format("Node \"{}\", Left: {}, Right {}\n", kv.first, kv.second.left->name, kv.second.right->name);
     }
@@ -102,7 +102,7 @@ int part1(const input_t &in) {
     size_t steps = 0;
     while (curr_node.name != "ZZZ") {
         char instr = instructions[steps++ % (len)];
-        #ifdef DEBUG
+        #ifdef _DEBUG
         std::cout << std::format("Instuction: \"{}\"\n", instr);
         #endif
         switch (instr)
@@ -167,7 +167,7 @@ uint64_t part2(const input_t &in) {
 
     std::unordered_map<std::string, Node> nodes = createNodeMap(std::vector(in.begin()+2, in.end()));
     std::vector<const Node *> starting_nodes = getStartingNodes(nodes);
-    #ifdef DEBUG
+    #ifdef _DEBUG
     std::cout << "Starting positions: ";
     for (const auto &n : starting_nodes) {
         std::cout << std::format("{}, ", n->name);
@@ -197,7 +197,7 @@ int main(int argc, char *argv[]) {
         return EXIT_FAILURE;
     }
     std::filesystem::path path(argv[1]);
-    #ifdef DEBUG
+    #ifdef _DEBUG
     std::string stem = path.stem();
     std::string ext = path.extension();
     std::string parent = path.parent_path();
@@ -209,7 +209,7 @@ int main(int argc, char *argv[]) {
     std::cout << "-----PART 1-----\n";
     std::cout << "number of steps: " << res1 << std::endl;
     
-    #ifdef DEBUG
+    #ifdef _DEBUG
     path = std::filesystem::path(parent + "/" + stem + "-2" + ext);
     #endif
     input_t lines2 = parse_inputs(path);

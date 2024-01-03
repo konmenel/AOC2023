@@ -62,7 +62,7 @@ std::complex<int64_t> getStart(const input_t &grid) {
             if ((*itx) == 'S') return std::complex(itx - line.begin(), ity - grid.begin());
         }
     }
-    #ifdef DEBUG
+    #ifdef _DEBUG
     std::cout << "Unreachable! Couln't find \'S\'!" << std::endl;
     exit(1);
     #endif
@@ -118,7 +118,7 @@ Position getDirection(char c, Position d) {
         if (d == NORTH) return Position(-1, 0);
 
     default:
-        #ifdef DEBUG
+        #ifdef _DEBUG
         std::cout << std::format("Unreachable! Symbol \'{}\'!", c) << std::endl;
         exit(1);
         #endif
@@ -137,7 +137,7 @@ uint64_t part1(const input_t &in) {
     pos += dir;
     char c = atPos(in, pos);
     while (c != 'S') {
-        #ifdef DEBUG
+        #ifdef _DEBUG
         std::cout << c << dir << pos;
         #endif
 
@@ -146,7 +146,7 @@ uint64_t part1(const input_t &in) {
         c = atPos(in, pos);
         loop.push_back(++steps);
 
-        #ifdef DEBUG
+        #ifdef _DEBUG
         std::cout << " -> " << c << dir << pos << std::endl;
         #endif
     }
@@ -182,7 +182,7 @@ Tile getTile(char c) {
         return Tile::Corner;
 
     default:
-        #ifdef DEBUG
+        #ifdef _DEBUG
         std::cout << std::format("Unreachable! Symbol \'{}\'!", c) << std::endl;
         exit(1);
         #endif
@@ -245,7 +245,7 @@ uint64_t part2(const input_t &in) {
                 inter = raytrace(loop, Position(x, y), in);
             
             if (inter % 2 != 0) numPoints++;
-            #ifdef DEBUG
+            #ifdef _DEBUG
             if (loop[y][x] != Tile::None) {
                 std::cout << in[y][x];
             } else {
@@ -253,7 +253,7 @@ uint64_t part2(const input_t &in) {
             }
             #endif 
         }
-        #ifdef DEBUG
+        #ifdef _DEBUG
         std::cout << std::endl;
         #endif 
     }

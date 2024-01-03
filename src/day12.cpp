@@ -25,7 +25,7 @@ typedef  int32_t i32;
 typedef  int64_t i64;
 typedef size_t usize;
 
-#ifdef DEBUG
+#ifdef _DEBUG
     #define debug_println(fmt, ...) std::cout << std::format((fmt), ##__VA_ARGS__) << std::endl
     #define debug_print(fmt, ...) std::cout << std::format((fmt), ##__VA_ARGS__)
 #else
@@ -97,7 +97,7 @@ inline bit indexPerm(u64 perm, size_t i) { return ((perm & (1 << i)) >> i); }
 
 
 void applyPerm(const std::string &condition, u64 perm, std::string &permuted_str) {
-    #ifdef DEBUG
+    #ifdef _DEBUG
     if (condition.size() != permuted_str.size())
         debug_println("Strings must have the same length.");
     #endif
@@ -123,7 +123,7 @@ u64 countValidPerm(const std::string &condition, const std::vector<u32> &counts)
             sum++;
 
             debug_print("\t{:3}) perm={}, applied={} ", sum, perm, tmp);
-            #ifdef DEBUG
+            #ifdef _DEBUG
             for (const u32 &c : perm_counts)
                 debug_print("{},", c);
             debug_println("");

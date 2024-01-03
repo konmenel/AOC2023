@@ -142,13 +142,13 @@ uint64_t part1(const input_t &in) {
 
         for (size_t j = 0; j < src.size(); j++) {
             dst[j] = map_num(src[j], src_ranges, dst_ranges);
-            #ifdef DEBUG
+            #ifdef _DEBUG
             cout << src[j] << " => " << dst[j] << endl;
             #endif
         }
         src = dst;
         i++;
-        #ifdef DEBUG
+        #ifdef _DEBUG
         cout << endl;
         #endif
     }
@@ -195,7 +195,7 @@ uint64_t part2(const input_t &in) {
             i++;
         }
 
-        #ifdef DEBUG
+        #ifdef _DEBUG
         std::cout << "================================================================\n";
         std::cout << "map src_ranges -> dst_ranges \n";
         for (size_t ii = 0; ii < src_ranges.size(); ii++) {
@@ -238,7 +238,7 @@ uint64_t part2(const input_t &in) {
                 }
             }
         }
-        #ifdef DEBUG 
+        #ifdef _DEBUG 
         {
         // std::cout << "================================================================\n";
         std::cout << "src = \n";

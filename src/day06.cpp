@@ -74,7 +74,7 @@ int part1(const input_t &in) {
         }
 
         prod *= sum;
-        #ifdef DEBUG 
+        #ifdef _DEBUG 
         std::cout << sum << std::endl;
         #endif
     }

@@ -115,7 +115,7 @@ int part2(const input_t &in) {
 
         for (size_t j = i+1; j < i+1+matches && j < ncards; ++j) { copies[j] += copies[i]; }
         
-        #ifdef DEBUG
+        #ifdef _DEBUG
         cout << "copies: ";
         for (auto c : copies) cout << c << ",";
         cout << endl;

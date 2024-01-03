@@ -12,7 +12,7 @@
 #include "robin_hood.h"
 
 
-#ifdef DEBUG
+#ifdef _DEBUG
     #define debug_println(fmt, ...) std::cout << std::format((fmt), ##__VA_ARGS__) << std::endl
     #define debug_print(fmt, ...) std::cout << std::format((fmt), ##__VA_ARGS__)
 #else

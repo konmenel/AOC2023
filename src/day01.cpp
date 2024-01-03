@@ -14,7 +14,7 @@ const uint32_t DAY = 1;
 const char* NUMBER_NAMES[9] = {"one", "two", "three", "four",
                                "five", "six", "seven", "eight", "nine"};
 
-#ifdef DEBUG
+#ifdef _DEBUG
 #define INPUT_FILE "data/examples/01.txt"
 #else
 #define INPUT_FILE "data/01.txt"
@@ -72,13 +72,13 @@ int part1() {
             }
         }
 
-        #ifdef DEBUG
+        #ifdef _DEBUG
             std::cout << num << std::endl;
         #endif
         numbers.emplace_back(num);
     }
 
-    #ifdef DEBUG
+    #ifdef _DEBUG
         std::cout << "\n";
     #endif
 
@@ -125,12 +125,12 @@ int part2() {
             }
         }
 
-        #ifdef DEBUG
+        #ifdef _DEBUG
             std::cout << inputs[i] << ": " << num << std::endl;
         #endif
         numbers.emplace_back(num);
     }
-    #ifdef DEBUG
+    #ifdef _DEBUG
         std::cout << "\n";
     #endif
 

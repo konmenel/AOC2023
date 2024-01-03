@@ -10,7 +10,7 @@
 #include <deque>
 #include <memory>
 
-#ifdef DEBUG
+#ifdef _DEBUG
     #define debug_println(fmt, ...) std::cout << std::format((fmt), ##__VA_ARGS__) << std::endl
     #define debug_print(fmt, ...) std::cout << std::format((fmt), ##__VA_ARGS__)
 #else
@@ -300,7 +300,7 @@ i64 part1(const input_t &in) {
     i64 nlow = 0;
     i64 nhigh = 0;
 
-    #ifdef DEBUG
+    #ifdef _DEBUG
         #define N 4
     #else
         #define N 1000
@@ -379,7 +379,7 @@ i64 part2(const input_t &in) {
         }
     }
 
-    #ifdef DEBUG
+    #ifdef _DEBUG
         rx_inputs = {"con"};
     #endif
 

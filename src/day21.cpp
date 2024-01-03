@@ -16,7 +16,7 @@
 #include "robin_hood.h"
 
 
-#ifdef DEBUG
+#ifdef _DEBUG
     #define debug_println(fmt, ...) std::cout << std::format((fmt), ##__VA_ARGS__) << std::endl
     #define debug_print(fmt, ...) std::cout << std::format((fmt), ##__VA_ARGS__)
 #else
@@ -281,7 +281,7 @@ i64 walkGrid(Grid<> &grid, const i32 max_steps, Pos pos) {
 i64 walkGrid2(const Grid<> &grid, const i32 max_steps, Pos pos);
 
 i64 part1(const input_t &in) {
-    #ifdef DEBUG
+    #ifdef _DEBUG
     const i32 N = 6;
     #else
     const i32 N = 64;
@@ -349,7 +349,7 @@ i64 walkGridOpt(const Grid<> &grid, const i32 max_steps, Pos pos) {
 
 
 i64 part2(const input_t &in) {
-    #ifdef DEBUG
+    #ifdef _DEBUG
     const i64 N = 500;
     #else
     const i64 N = 26501365;

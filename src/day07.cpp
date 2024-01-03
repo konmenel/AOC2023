@@ -143,7 +143,7 @@ bool operator<(Hand a, Hand b) {
 int part1(const input_t &in) {
     const std::string CARDS_ORDER = "23456789TJQKA";
     std::vector<Hand> hands{};
-    #ifdef DEBUG
+    #ifdef _DEBUG
     std::cout << "Unsorted:\n";
     #endif
     for (const std::string &line : in) {
@@ -154,7 +154,7 @@ int part1(const input_t &in) {
         iss >> bet;
         HandType type = getHandType(hand);
         
-        #ifdef DEBUG
+        #ifdef _DEBUG
         std::cout << "Hand: " <<  hand << ", Bet: " << bet << ", Type: " << getHandTypeName(type) << "\n";
         #endif
         hands.emplace_back(std::move(hand), type, bet, CARDS_ORDER);
@@ -163,13 +163,13 @@ int part1(const input_t &in) {
     // Money printing part
     int winnings = 0;
     std::sort(hands.begin(), hands.end());
-    #ifdef DEBUG
+    #ifdef _DEBUG
     std::cout << "\nSorted:\n";
     #endif
     for (size_t i = 0; i < hands.size(); i++) {
         const Hand &h = hands[i];
         winnings += h.bet * (i + 1);
-        #ifdef DEBUG
+        #ifdef _DEBUG
         std::cout << "Hand: " <<  h.hand << ", Bet: " << h.bet << ", Type: " << getHandTypeName(h.type) << "\n";
         #endif
     }
@@ -234,7 +234,7 @@ HandType getHandType2(const std::string &hand) {
 int part2(const input_t &in) {
     const std::string CARDS_ORDER = "J23456789TQKA";
     std::vector<Hand> hands{};
-    #ifdef DEBUG
+    #ifdef _DEBUG
     std::cout << "Unsorted:\n";
     #endif
     for (const std::string &line : in) {
@@ -245,7 +245,7 @@ int part2(const input_t &in) {
         iss >> bet;
         HandType type = getHandType2(hand);
         
-        #ifdef DEBUG
+        #ifdef _DEBUG
         std::cout << "Hand: " <<  hand << ", Bet: " << bet << ", Type: " << getHandTypeName(type) << "\n";
         #endif
         hands.emplace_back(std::move(hand), type, bet, CARDS_ORDER);
@@ -254,13 +254,13 @@ int part2(const input_t &in) {
     // Money printing part
     int winnings = 0;
     std::sort(hands.begin(), hands.end());
-    #ifdef DEBUG
+    #ifdef _DEBUG
     std::cout << "\nSorted:\n";
     #endif
     for (size_t i = 0; i < hands.size(); i++) {
         const Hand &h = hands[i];
         winnings += h.bet * (i + 1);
-        #ifdef DEBUG
+        #ifdef _DEBUG
         std::cout << "Hand: " <<  h.hand << ", Bet: " << h.bet << ", Type: " << getHandTypeName(h.type) << "\n";
         #endif
     }

@@ -15,7 +15,7 @@
 typedef std::vector<std::string> input_t;
 typedef std::complex<uint16_t> Position;
 
-#ifdef DEBUG
+#ifdef _DEBUG
     #define debug_println(fmt, ...) std::cout << std::format((fmt), ##__VA_ARGS__) << std::endl
     #define debug_print(fmt, ...) std::cout << std::format((fmt), ##__VA_ARGS__)
 #else
@@ -23,7 +23,7 @@ typedef std::complex<uint16_t> Position;
     #define debug_print(fmt, ...)
 #endif
 
-#ifdef DEBUG
+#ifdef _DEBUG
     #define EXPANSION_FACTOR 10
 #else
     #define EXPANSION_FACTOR 1000000
@@ -78,7 +78,7 @@ public:
 
 
     T& operator()(size_t x, size_t y) {
-        #ifdef DEBUG
+        #ifdef _DEBUG
         if (x >= cols) {
             debug_println("x {} exceeds total number of columns({})!", x, cols-1);
         } else if (y >= rows) {
@@ -89,7 +89,7 @@ public:
     }
 
     const T& operator()(size_t x, size_t y) const {
-        #ifdef DEBUG
+        #ifdef _DEBUG
         if (x >= cols) {
             debug_println("x {} exceeds total number of columns({})!", x, cols-1);
         } else if (y >= rows) {
@@ -125,7 +125,7 @@ public:
 
 
     std::vector<bool>::reference operator()(size_t x, size_t y) {
-        #ifdef DEBUG
+        #ifdef _DEBUG
         if (x >= cols) {
             debug_println("x {} exceeds total number of columns({})!", x, cols-1);
         } else if (y >= rows) {
@@ -136,7 +136,7 @@ public:
     }
 
     std::vector<bool>::const_reference operator()(size_t x, size_t y) const {
-        #ifdef DEBUG
+        #ifdef _DEBUG
         if (x >= cols) {
             debug_println("x {} exceeds total number of columns({})!", x, cols-1);
         } else if (y >= rows) {
