@@ -25,7 +25,7 @@ $gcc_flacs=""
 $datadir="data"
 if ( "debug" -eq $mode ) {
     $debug=$true
-    $gcc_flacs="-DDEBUG -O0 -g"
+    $gcc_flacs="-D_DEBUG -O0 -g"
     $datadir="data/examples"
 } elseif (("release" -eq $mode) -or (-Not $mode)) {
     $debug=$false

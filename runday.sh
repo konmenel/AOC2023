@@ -30,7 +30,7 @@ gcc_options="-Wall -Wpedantic -std=c++23 $includes"
 datadir=data
 if [[ "debug" == $mode ]]; then
     debug=true
-    gcc_options="$gcc_options -DDEBUG -O0 -g"
+    gcc_options="$gcc_options -D_DEBUG -O0 -g"
     datadir=data/examples
 elif [[ "release" == $mode || "" == $mode ]]; then
     debug=false
