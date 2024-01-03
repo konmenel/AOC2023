@@ -12,7 +12,7 @@
 #include "recycles.h"
 
 
-#ifdef DEBUG
+#ifdef _DEBUG
     #define debug_println(fmt, ...) std::cout << std::format((fmt), ##__VA_ARGS__) << std::endl
     #define debug_print(fmt, ...) std::cout << std::format((fmt), ##__VA_ARGS__)
 #else
@@ -47,7 +47,6 @@ input_t parseInputs(const std::string &filename) {
     file.close();
     return lines;
 }
-
 
 
 struct Point2 {
@@ -280,7 +279,7 @@ struct Line2d {
 
 
 i64 part1(const input_t &in) {
-    #ifdef DEBUG
+    #ifdef _DEBUG
     const float MIN = 7;
     const float MAX = 27;
     #else
@@ -321,7 +320,10 @@ i64 part1(const input_t &in) {
 }
 
 
+
 int main(int argc, char *argv[]) {
+    std::setlocale(LC_ALL, ".UTF8");
+
     if (argc < 2) {
         usage(argv[0]);
         return EXIT_FAILURE;
@@ -332,9 +334,12 @@ int main(int argc, char *argv[]) {
     std::cout << "-----PART 1-----\n";
     std::cout << "Future intersects = " << res1 << std::endl;
     
-    // auto res2 = part2(lines);
-    // std::cout << "-----PART 2-----\n";
-    // std::cout << "Future intersects = " << res2 << std::endl;
+    std::cout << "-----PART 2-----\n";
+    std::cout << "Run the python file `day24.py` because I am not installing a C++ non-linear solver library! Command to run : `python3 src/day24.py";
+    #ifdef _DEBUG
+    std::cout << " DEBUG";
+    #endif
+    std::cout << "`" << std::endl;
 
     return 0;
 }
