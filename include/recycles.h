@@ -38,6 +38,7 @@ const Dir SOUTH( 0, 1);
 const Dir WEST (-1, 0);
 const Dir EAST ( 1, 0);
 
+
 template<typename T> 
 class Grid {
 public:
@@ -131,4 +132,21 @@ private:
 };
 
 } // namespace utils
+
+namespace std
+{
+
+template <typename T>
+struct formatter<complex<T>> {
+    constexpr auto parse(format_parse_context &ctx) {
+        return ctx.begin();
+    }
+
+    auto format(const complex<T> &c, format_context &ctx) const {
+        return format_to(ctx.out(), "({},{})", c.real(), c.imag());
+    }
+};
+
+}  // namespace std
+
 #endif
