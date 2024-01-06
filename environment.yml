@@ -1,0 +1,10 @@
+name: aoc2024
+channels:
+  - conda-forge
+  - defaults
+dependencies:
+  - networkx=3.2.1=pyhd8ed1ab_0
+  - pip=23.3.2=pyhd8ed1ab_0
+  - python=3.11.7=hab00c5b_1_cpython
+  - sympy=1.12=pypyh9d50eac_103
+prefix: /home/konmenel/miniconda3/envs/aoc2024
